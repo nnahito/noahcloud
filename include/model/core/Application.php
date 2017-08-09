@@ -3,6 +3,7 @@ abstract class Application{
     /* プロパティ定義エリア */
     protected $debug = false;
     protected $session;
+    protected $database;
 
     /**
      * コンストラクタ
@@ -43,8 +44,8 @@ abstract class Application{
      * @return void
      */
     protected function initialize(){
-        # セッション管理モデルをインスタンス化
-        $this->session = new Session();
+        $this->session = new Session();                     # セッション管理モデルをインスタンス化
+        $this->$database = new Database();                  # データベースを扱うモデルをインスタンス化
     }
 
 
