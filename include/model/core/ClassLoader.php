@@ -19,6 +19,16 @@ class ClassLoader{
 
 
     /**
+     * 必要なクラスを自動で読み込んで登録します
+     * @return void
+     */
+    public function register(){
+        spl_autoload_register( array($this, 'loadClass') );
+    }
+
+
+
+    /**
      * 読み込みたいPHPが保存してあるディレクトリをプロパティに読み込むメソッド
      * @param  string $dir ディレクトリ名を入力
      * @return void
