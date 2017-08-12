@@ -1,15 +1,15 @@
 <?php
-abstract class Application{
+class Application{
     /* プロパティ定義エリア */
-    protected $debug = false;
-    protected $session;
-    protected $database;
+    private $debug = false;
+    private $session;
+    private $database;
 
     /**
      * コンストラクタ
      * @param boolean $debug デバッグの
      */
-    protected function __construct( $debug = false ){
+    public function __construct( $debug = false ){
         # デバッグモード（デプロイするときはfalseにする）
         $this->setDebugMode($debug);
 
@@ -23,7 +23,7 @@ abstract class Application{
      * デバッグモードを有効にするかどうかを設定します
      * @param boolean $debug デバッグモードを有効にするならtrue、無効にするならfalseを指定
      */
-    protected function setDebugMode($debug){
+    public function setDebugMode($debug){
         # デッバグモードを有効にするかどうかを判定
         if ( $debug === true ){
             # デバッグモードを有効にする
@@ -43,7 +43,7 @@ abstract class Application{
      * アプリケーションの初期設定を行います
      * @return void
      */
-    protected function initialize(){
+    public function initialize(){
         $this->session = new Session();                     # セッション管理モデルをインスタンス化
         $this->$database = new Database();                  # データベースを扱うモデルをインスタンス化
     }
@@ -56,6 +56,16 @@ abstract class Application{
      */
     public function getSession(){
         return $this->session;
+    }
+
+
+
+    /**
+     * データベースのインスタンスを返します
+     * @return pdo データベースのインスタンスが返ります
+     */
+    public function getDatabase(){
+        return $this->database;
     }
 
 }

@@ -6,6 +6,7 @@
 abstract class Controller{
     /* プロパティ定義エリア */
     protected $errorMsgs;           # エラーメッセージがあれば配列形式でここに入る
+    protected $params;              # ビュー側に渡すパラメータをすべて格納しておく
 
     /**
      * コンストラクタ
@@ -13,6 +14,9 @@ abstract class Controller{
     public function __construct(){
         # エラーメッセージ用の変数を初期化
         $this->errorMsgs = array();
+
+        # ビュー側に渡すパラメータをすべて格納しておく変数を初期化
+        $params = array();
     }
 
     /**

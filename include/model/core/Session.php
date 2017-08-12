@@ -3,7 +3,7 @@
 /**
  * セッションを管理するためのクラス
  */
-class ClassName{
+class Session{
     /*
      * プロパティ定義エリア
      */

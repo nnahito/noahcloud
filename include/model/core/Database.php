@@ -4,7 +4,6 @@ class Database{
 
     private static $instance;
     private $pdo;
-    private $stmt;
 
 
     /**
@@ -14,12 +13,7 @@ class Database{
 
         # データベースに接続
         try{
-            $this->pdo = new PDO('sqlite3: noahcloud_db.sqlite;charset=utf8',
-                                '',
-                                '',
-                                array(PDO::ATTR_EMULATE_PREPARES => false,
-                                PDO::MYSQL_ATTR_INIT_COMMAND => "SET CHARACTER SET `utf8`")
-                            );
+            $this->pdo = new PDO('sqlite:../database/noahcloud_db.sqlite', '', '');
 
             # 例外を投げる
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -29,7 +23,7 @@ class Database{
 
 
         }catch(PDOException $e) {
-            die('データベース接続失敗。'.$e->getMessage());
+            die('データベース接続失敗<br>'.$e->getMessage());
         }
 
     }
@@ -40,7 +34,7 @@ class Database{
      * シングルトンパターンで使う窓口
      * @return Database Databaseクラスのインスタンスが返ります
      */
-    public function getInstance(){
+    public static function getInstance(){
         if ( isset(self::$instance) === false ){
             self::$instance = new Database();
         }
@@ -51,11 +45,10 @@ class Database{
 
     /* executeするメソッド */
     public function execute($sql, $data=array()){
-        $this->stmt = null;
-        $this->stmt = $this->pdo->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
 
-        $this->stmt->execute($data);
-        return $this->stmt;
+        $stmt->execute($data);
+        return $stmt;
     }
 
 
@@ -67,9 +60,9 @@ class Database{
      * @return array        結果が連想配列で返ります
      */
     public function getFetchAll($sql, $data=array()){
-        $this->execute($sql, $data);
+        $stmt = $this->execute($sql, $data);
 
-        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
@@ -80,9 +73,9 @@ class Database{
      * @return array        SQLに対する結果が1件のみ、連想配列で返ります
      */
     public function getFetch($sql, $data=array()){
-        $this->execute($sql, $data);
+        $stmt = $this->execute($sql, $data);
 
-        return $this->stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
 
