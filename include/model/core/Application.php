@@ -9,7 +9,7 @@ class Application{
      * コンストラクタ
      * @param boolean $debug デバッグの
      */
-    public function __construct( $debug = false ){
+    public function __construct( $debug = true ){
         # デバッグモード（デプロイするときはfalseにする）
         $this->setDebugMode($debug);
 
@@ -45,7 +45,7 @@ class Application{
      */
     public function initialize(){
         $this->session = new Session();                     # セッション管理モデルをインスタンス化
-        $this->$database = new Database();                  # データベースを扱うモデルをインスタンス化
+        $this->database = Database::getInstance();         # データベースを扱うモデルをインスタンス化
     }
 
 

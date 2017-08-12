@@ -1,5 +1,6 @@
 <?php
-class IndexController extends Controller{
+
+class RepositoryController extends Controller{
     /* プロパティ定義エリア */
     private $app;               # Applicationインスタンスを保持しておく
 
@@ -24,7 +25,6 @@ class IndexController extends Controller{
         $this->params['repositories'] = $db->getFetchAll('select repository_id, repository_name from repository');
 
         # ビューを読み込み
-        include_once('../include/view/indexView.php');
+        include_once('../include/view/repositoryView.php');
     }
-
 }

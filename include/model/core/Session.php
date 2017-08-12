@@ -18,7 +18,7 @@ class Session{
         # セッションがスタートしていねければ
         if ( self::$sessionStarted === false ){
             # セッションをスタートする
-            session_stat();
+            session_start();
 
             # セッションフラグをたてる
             self::$sessionStarted = true;
