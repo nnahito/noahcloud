@@ -5,25 +5,15 @@
 
     <meta charset="utf-8">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+    <!-- CSSとJSを読み込む -->
+    <?php include_once('../include/view/template/include.php'); ?>
 
 </head>
 
 <body>
 
-    <nav class="grey darken-4 white-text">
-        <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">NOAH CLOUD</a>
-            <a href="#!" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="sass.html">設定</a></li>
-            </ul>
-            <ul class="side-nav" id="mobile-demo">
-                <li><a href="sass.html">設定</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- ヘッダー -->
+    <?php include_once('../include/view/template/header.php'); ?>
 
 
 
@@ -36,9 +26,48 @@
             </ul>
         </div>
 
-        <!-- 通知一覧 -->
+        <!-- ファイル -->
         <div class="col s9">
-            本文
+            <!-- ファイルをアップロードするフォーム -->
+            <div class="input-field">
+                <form action="upload.cgi" enctype="multipart/form-data" method="post">
+                    <input type="file" name="upfile">
+                    <input type="submit" name="submit" value="アップロード" class="waves-effect waves-light btn">
+                    <input type="hidden" name="repository_id" value="<?= $this->params['repository_id'] ?>">
+                    <input type="hidden" name="upload_person" value="1">
+                </form>
+            </div>
+
+            <!-- ファイル一覧 -->
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ファイル名</th>
+                            <th>アップロード者</th>
+                            <th>アップロード日</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php
+                        # ファイルのリストを吐き出していく
+                        foreach ($this->params['file_list'] as $key => $value) {
+                            ?>
+                            <tr>
+                                <td><?= $value['file_list_id'] ?></td>
+                                <td><?= $value['file_name'] ?></td>
+                                <td><?= $value['upload_person'] ?></td>
+                                <td><?= $value['uploaded_at'] ?></td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
 
     </div>

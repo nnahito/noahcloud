@@ -5,25 +5,15 @@
 
     <meta charset="utf-8">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+    <!-- CSSとJSを読み込む -->
+    <?php include_once('../include/view/template/include.php'); ?>
 
 </head>
 
 <body>
 
-    <nav class="grey darken-4 white-text">
-        <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">NOAH CLOUD</a>
-            <a href="#!" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="sass.html">設定</a></li>
-            </ul>
-            <ul class="side-nav" id="mobile-demo">
-                <li><a href="sass.html">設定</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- ヘッダー -->
+    <?php include_once('../include/view/template/header.php'); ?>
 
 
 
@@ -34,7 +24,7 @@
             <?php
                 foreach ($this->params['repositories'] as $repository) {
             ?>
-                    <li>○<a href="repository.php?id=<?= $repository['repository_id'] ?>"><?= $repository['repository_name'] ?></a></li>
+                    <li><a href="repository.php?id=<?= $repository['repository_id'] ?>" class="btn-flat waves-effect waves-light"><?= $repository['repository_name'] ?></a></li>
             <?php
                 }
             ?>
