@@ -13,7 +13,7 @@ Class LoginController extends Controller
      /**
       * コンストラクタ
       */
-    public function __construct(){
+    public function __construct() {
         # Applicationインスタンスを生成
         $this->app = new Application();
     }
@@ -24,7 +24,7 @@ Class LoginController extends Controller
      * すべての処理の始まり
      * @return void
     */
-    public function run(){
+    public function run() {
 
         # POSTアクセスをしてきたら
         if ( $this->isPost() === true ) {
