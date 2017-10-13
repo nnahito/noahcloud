@@ -15,6 +15,14 @@ Class DownloadController extends Controller{
     public function __construct(){
         # Applicationインスタンスを生成
         $this->app = new Application();
+
+        # もしログインしていなければ
+        if ( $login->isLogin() === false ) {
+            # ログインページへ飛ばす
+            header('Location: ./login.php');
+            exit;
+        }
+        
     }
 
 
@@ -34,7 +42,7 @@ Class DownloadController extends Controller{
 
         # DBからユーザの権限を確認する
         $user_dao = new User();
-        
+
 
     }
 
