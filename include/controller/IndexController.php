@@ -9,6 +9,17 @@ class IndexController extends Controller{
     public function __construct(){
         # Applicationインスタンスを生成
         $this->app = new Application();
+
+        # ログインをチェックする
+        $login = new LoginBissiness();
+
+        # もしログインしていなければ
+        if ( $login->isLogin() === false ) {
+            # ログインページへ飛ばす
+            header('Location: ./login.php');
+            exit;
+        }
+
     }
 
 
