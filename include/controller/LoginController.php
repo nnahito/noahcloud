@@ -29,7 +29,7 @@ Class LoginController extends Controller
         # POSTアクセスをしてきたら
         if ( $this->isPost() === true ) {
             # ログインチェック
-            $this->isLogin();
+            $this->checkLogin();
         }
 
         # Viewの表示
@@ -43,7 +43,7 @@ Class LoginController extends Controller
     /**
      * ログイン処理を行う
      */
-    public function isLogin() {
+    public function checkLogin() {
         # フォームからの値を受け取る（ユーザID）
         $email = $this->getPost('email');
         if ( $email === '' ) {
