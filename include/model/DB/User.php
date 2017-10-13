@@ -53,9 +53,9 @@ Class User extends Database
             # falseを返す
             return (bool)false;
         }
-
+        
         # パスワードをチェックする
-        if ( password_verify($user_info['password'], $password) !== true ) {
+        if ( password_verify($password, $user_info['password']) !== true ) {
             return (bool)false;
         }
 
