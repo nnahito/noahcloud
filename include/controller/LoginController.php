@@ -29,7 +29,7 @@ Class LoginController extends Controller
         # POSTアクセスをしてきたら
         if ( $this->isPost() === true ) {
             # ログインチェック
-            $this->login();
+            $this->isLogin();
         }
 
         # Viewの表示
@@ -43,7 +43,7 @@ Class LoginController extends Controller
     /**
      * ログイン処理を行う
      */
-    public function login() {
+    public function isLogin() {
         # フォームからの値を受け取る（ユーザID）
         $email = $this->getPost('email');
         if ( $email === '' ) {
@@ -69,12 +69,21 @@ Class LoginController extends Controller
                 # セッションにユーザ情報を書き込み、ログイン処理を行う
                 $session = new Session();
                 $session->set('USER_ID', $user_info['user_id']);
+
+                # ログインに成功したらページを遷移する
+                header('location: ./');
+
+                return true;
+
             } else {
                 # ユーザ情報がなければログイン失敗
                 $this->errorMsgs[] = 'ログイン情報が間違っています';
             }
 
         }
+
+        # ログイン失敗時
+        return false;
 
     }
 
