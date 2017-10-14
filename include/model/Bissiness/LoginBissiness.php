@@ -45,4 +45,23 @@ Class LoginBissiness
         return (boolean)true;
     }
 
+
+
+    /**
+     * セッションを削除してログアウトさせます
+     *
+     * @author Nな人<nnahito>
+     * @return viod
+     */
+    public function logout(int $user_id=null) {
+        # セッションインスタンスを取得
+        $session = $this->_app->getSession();
+
+        # セッションそのものをすべて削除する
+        $session->clear();
+
+        # ページ強制切り替え（あえての一度indexに飛ばす）
+        header('Location: ./');
+    }
+
 }
