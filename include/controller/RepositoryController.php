@@ -17,10 +17,28 @@ class RepositoryController extends Controller{
      * すべての処理の始まり
      * @return void
      */
-    public function run(){
+    public function run() {
         # リポジトリのIDを取得
         $repository_id = $this->getGet('id');
         $this->params['repository_id'] = $repository_id;
+
+
+        # セッションを取得するインスタンスを取得
+        $session = $this->app->getSession();
+
+        # ユーザIDを取得
+        $user_id = $session->get('USER_ID');
+
+        $repository = new Repository();
+        $permission = $repository->isAssigned($user_id, $repository_id);
+
+        # リポジトリへのアクセス許可リストに、ユーザIDがなければ
+        if ( $permission !== true ) {
+            # 弾く
+            $this->errorMsgs[] = 'このリポジトリへのアクセス権がありません';
+            include_once('../include/view/errorView.php');
+            exit;
+        }
 
         # データベースからデータを取得
         $db = $this->app->getDatabase();
