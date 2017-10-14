@@ -24,7 +24,7 @@
             <?php
                 foreach ($this->params['repositories'] as $repository) {
             ?>
-                    <li><a href="repository.php?id=<?= $repository['repository_id'] ?>" class="btn-flat waves-effect waves-light"><?= $repository['repository_name'] ?></a></li>
+                    <li style="padding: 5px 0px;"><a href="repository.php?id=<?= $repository['repository_id'] ?>" class="z-depth-0 btn waves-effect waves-light center-align grey darken-3" style="width: 100%;"><?= $repository['repository_name'] ?></a></li>
             <?php
                 }
             ?>
