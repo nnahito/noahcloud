@@ -8,8 +8,20 @@ class RepositoryController extends Controller{
      * コンストラクタ
      */
     public function __construct(){
+
         # Applicationインスタンスを生成
         $this->app = new Application();
+
+        # ログインをチェックする
+        $login = new LoginBissiness();
+
+        # もしログインしていなければ
+        if ( $login->isLogin() === false ) {
+            # ログインページへ飛ばす
+            header('Location: ./login.php');
+            exit;
+        }
+
     }
 
 
@@ -18,6 +30,7 @@ class RepositoryController extends Controller{
      * @return void
      */
     public function run() {
+
         # リポジトリのIDを取得
         $repository_id = $this->getGet('id');
         $this->params['repository_id'] = $repository_id;
@@ -56,5 +69,7 @@ class RepositoryController extends Controller{
 
         # ビューを読み込み
         include_once('../include/view/repositoryView.php');
+
     }
+    
 }
