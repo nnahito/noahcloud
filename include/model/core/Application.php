@@ -24,17 +24,23 @@ class Application{
      * @param boolean $debug デバッグモードを有効にするならtrue、無効にするならfalseを指定
      */
     public function setDebugMode($debug){
+
         # デッバグモードを有効にするかどうかを判定
         if ( $debug === true ){
+
             # デバッグモードを有効にする
             $this->debug = true;
             ini_set('display_errors', 1);
             error_reporting(-1);
+
         }else{
+
             # デバッグモードを無効にする
             $this->debug = false;
             ini_set('display_errors', 0);
+
         }
+
     }
 
 
@@ -44,8 +50,10 @@ class Application{
      * @return void
      */
     public function initialize(){
+
         $this->session = new Session();                     # セッション管理モデルをインスタンス化
         $this->database = Database::getInstance();         # データベースを扱うモデルをインスタンス化
+
     }
 
 
@@ -55,7 +63,9 @@ class Application{
      * @return Session セッションのインスタンスが返ります
      */
     public function getSession(){
+
         return $this->session;
+
     }
 
 
@@ -65,7 +75,9 @@ class Application{
      * @return pdo データベースのインスタンスが返ります
      */
     public function getDatabase(){
+
         return $this->database;
+        
     }
 
 }
