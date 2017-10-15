@@ -21,8 +21,11 @@
         <!-- ここにリポジトリの設定一覧が表示される -->
         <div class="col s3" style="height: 100%">
             <ul>
-                <li style="padding: 5px 0px;"><a href=#! class="z-depth-0 btn waves-effect waves-light center-align grey darken-3" style="width: 100%;">ファイル一覧</a></li>
-                <li style="padding: 5px 0px;"><a href=#! class="z-depth-0 btn waves-effect waves-light center-align grey darken-3" style="width: 100%;">リポジトリ設定</a></li>
+                
+                <li style="padding: 5px 0px;">
+                    <a href="./repository.php?id=<?= $this->params['repository_id'] ?>&page=setting" class="z-depth-0 btn waves-effect waves-light center-align grey darken-3 modal-trigger" style="width: 100%;">リポジトリ設定</a>
+                </li>
+
             </ul>
         </div>
 

@@ -23,6 +23,31 @@ Class User extends Database
 
 
     /**
+     * 登録されているユーザ一覧を取得する
+     *
+     * @author Nな人<nnahito>
+     * @return array    登録されているユーザが配列で返る
+     */
+    public function getUsersList() {
+
+        # DBからユーザ情報を検索するSQL
+        $sql = 'SELECT
+                    user_id, user_name, email, password, permission
+                FROM
+                    user
+        ';
+
+        # SQLを実行
+        $users = $this->_dao->getFetchAll($sql);
+
+        # 返却
+        return (array)$users;
+
+    }
+
+
+
+    /**
      * メールアドレスとパスワードからユーザ情報を取得する
      * （ログインのときとかに使う用）
      *
@@ -31,6 +56,7 @@ Class User extends Database
      * @return mixed            ユーザ情報があればユーザの情報が配列で、なければfalseが返る
      */
     public function getLoginInfo(string $email, string $password) {
+
         # DBからユーザ情報を検索するSQL
         $sql = 'SELECT
                     user_id, user_name, email, password, permission
@@ -72,6 +98,7 @@ Class User extends Database
      * @return int
      */
     public function getUserPermission(int $user_id) {
+
         # DBからユーザ情報を検索するSQL
         $sql = 'SELECT
                     permission
