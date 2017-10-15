@@ -72,6 +72,7 @@ class RepositoryController extends Controller{
         # ビューに渡すデータ群
         $this->params['repository_id'] = $repository_id;                                            # リポジトリのID
         $this->params['file_list'] = $repository->getFileList($repository_id);                      # ファイルリストのデータ
+        $this->params['user_id'] = $user_id;                                                        # ゆーざID 
 
         # ビューを読み込み
         include_once('../include/view/repositoryView.php');

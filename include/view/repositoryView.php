@@ -30,12 +30,17 @@
         <div class="col s9">
             <!-- ファイルをアップロードするフォーム -->
             <div class="input-field">
-                <form action="upload.cgi" enctype="multipart/form-data" method="post">
+                <form id="upload_form" action="upload.cgi" enctype="multipart/form-data" method="post">
                     <input type="file" name="upfile">
-                    <input type="submit" name="submit" value="アップロード" class="waves-effect waves-light btn">
+                    <button id="upbutton" type="submit" name="submit" class="waves-effect waves-light btn">アップロード</button>
                     <input type="hidden" name="repository_id" value="<?= $this->params['repository_id'] ?>">
-                    <input type="hidden" name="upload_person" value="1">
+                    <input type="hidden" name="upload_person" value="<?= $this->params['user_id'] ?>">
                 </form>
+            </div>
+
+            <!-- アップロード中のプログレスバー -->
+            <div class="progress" style="display: none;">
+                <div class="determinate" style="width: 0%"></div>
             </div>
 
             <!-- ファイル一覧 -->
@@ -76,6 +81,61 @@
         </div>
 
     </div>
+
+
+
+    <script>
+
+    $(document).submit(function(){
+        // フォームデータの取得
+        let form_data = new FormData( document.getElementById('upload_form') );
+
+        // XMLHttpRequestによるアップロード処理
+        var xhttpreq = new XMLHttpRequest();
+
+        // アップロードスタートイベント
+        xhttpreq.upload.onloadstart = function(e){
+            // プログレスバーを表示
+            $('.progress').fadeIn(100);
+
+            // アップロードボタンを非表示
+            $('#upbutton').fadeOut(100);
+        }
+
+        // アップロード更新イベント
+        xhttpreq.upload.onprogress = function(e){
+            // プログレスバーを動かす
+            var progress = (e.loaded / e.total * 100).toFixed(3);
+            $('.determinate').css('width', (progress)+'%');
+        }
+
+        // アップロード完了イベント
+        xhttpreq.upload.onloadend = function(e){
+            // プログレスバーを0％に戻す
+            for (var i = 100; i > 0; i--) {
+                $('.determinate').css('width', (i)+'%');
+            }
+
+            // プログレスバーを非表示
+            $('.progress').fadeOut(800);
+
+            // アップロードボタンを表示
+            $('#upbutton').fadeIn(100);
+
+            // リロード（またやり方を変更する）
+            location.reload();
+        }
+
+        // 接続先/接続方法指定
+        xhttpreq.open("POST", "./upload.cgi", true);
+
+        // データの送信
+        xhttpreq.send(form_data);
+
+        return false;
+    });
+
+    </script>
 
 </body>
 
