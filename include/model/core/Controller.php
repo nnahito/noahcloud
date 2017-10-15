@@ -81,11 +81,23 @@ abstract class Controller{
      */
     public function authCheck(){
         # ログインしている状態でこのページに来たらIndexに飛ばす
-        if ( isset($_SESSION['USERID']) ){
-            return ture;
+        if ( isset($_SESSION['USER_ID']) ){
+            return true;
         }
 
         return false;
+    }
+
+
+
+    /**
+     * 自分自身のファイルパスを返すメソッド
+     *
+     * @author Nな人<nnahito>
+     * @return string サーバ上の自分自身のパスが返ります
+     */
+    public function getOwnPath() {
+        return (string)$_SERVER['PHP_SELF'];
     }
 
 
