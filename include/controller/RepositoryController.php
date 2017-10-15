@@ -51,11 +51,17 @@ class RepositoryController extends Controller{
         # リポジトリを操作するDAOをインスタンス化
         $repository = new Repository();
 
+        # ユーザの属性を取得するクラスをインスタンス化
+        $user = new User();
+
         # ユーザにリポジトリの閲覧操作権が有るかを確認
         $permission = $repository->isAssigned($user_id, $repository_id);
 
-        # リポジトリへのアクセス許可リストに、ユーザIDがなければ
-        if ( $permission !== true ) {
+        # ユーザの権限を取得
+        $user_permission = $user->getUserPermission($user_id);
+
+        # リポジトリへのアクセス許可リストにユーザIDがない、かつ、ユーザのパーミッションがマネージャ（1）でなければ
+        if ( $permission !== true && $user_permission !== 1 ) {
             # 弾く
             $this->errorMsgs[] = 'このリポジトリへのアクセス権がありません';
             include_once('../include/view/errorView.php');

@@ -53,7 +53,7 @@ Class User extends Database
             # falseを返す
             return (bool)false;
         }
-        
+
         # パスワードをチェックする
         if ( password_verify($password, $user_info['password']) !== true ) {
             return (bool)false;
@@ -90,7 +90,7 @@ Class User extends Database
         $permission = $this->_dao->getFetch($sql, $data);
 
         # ユーザIDが存在していなかったらNULLが返ってきているので、NULLの場合は
-        if ( $permission[0] === NULL ) {
+        if ( $permission === false ) {
             # 0を返却
             return 0;
         }

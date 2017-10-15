@@ -100,4 +100,41 @@ Class Repository
 
     }
 
+
+
+    /**
+     * ファイルIDから、ファイル名を取得する（stringで返る）
+     * ファイルIDがDB上に存在しなければfalseが返る
+     *
+     * @author Nな人<nnahito>
+     * @param  int   $file_list_id  ファイルリストテーブルのID（ユニーク）
+     * @return mixed                ファイル名（string）が返る。file_idがDB上になければfalseが返る
+     */
+    public function getFileNameById(int $file_list_id) {
+
+        # ファイルIDからファイル名を取得するSQL
+        $sql = 'SELECT
+            file_name
+        FROM
+            file_list
+        WHERE
+            file_list_id = :file_list_id
+        ';
+
+        # DBを扱うインスタンスを取得
+        $database = $this->_app->getDatabase();
+
+        # SQLの実行
+        $result = $database->getFetch($sql, ['file_list_id' => $file_list_id]);
+
+        # 結果がなければ
+        if ( $result === false ) {
+            return false;
+        }
+
+        # 結果を返す
+        return (string)$result['file_name'];
+
+    }
+
 }
