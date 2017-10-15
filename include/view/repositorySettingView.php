@@ -34,15 +34,15 @@
         <div class="col s9">
 
             <!-- ユーザ追加フォーム -->
-            <form action="<?= $this->getOwnPath() ?>" method="post">
+            <form action="<?= $this->getOwnPath() ?>?id=<?= $this->params['repository_id'] ?>&page=setting" method="post">
 
                 <div class="input-field">
-                    <select>
+                    <select name="add_user_id">
                         <option value="" disabled selected>追加したいユーザを選択してください</option>
                         <?php
                         foreach ($this->params['all_users'] as $key => $value) {
                         ?>
-                        <option value="<?= $value['user_id'] ?>"><?= $value['user_name'] ?>《<?= $value['email'] ?>》</option>
+                            <option value="<?= $value['user_id'] ?>"><?= $value['user_name'] ?></option>
                         <?php
                         }
                         ?>
@@ -53,6 +53,12 @@
                         <button type="submit" class="btn waves-effect waves-light">ユーザの追加</button>
                     </div>
                 </div>
+
+                <!-- リポジトリID -->
+                <input type="hidden" name="id" value="<?= $this->params['repository_id'] ?>">
+
+                <!-- ページモード -->
+                <input type="hidden" name="page" value="add">
 
             </form>
 

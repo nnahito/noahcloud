@@ -64,6 +64,48 @@ Class Repository
 
 
     /**
+     * リポジトリの権限を付与するレコードを追加する
+     *
+     * @author Nな人<nnahito>
+     * @param  int    $user_id       権限を付与したいユーザID
+     * @param  int    $repository_id 権限を付与したいリポジトリID
+     * @return boolean               付与に成功したらTRUE、失敗したらFALSEが返る
+     */
+    public function insertAssignedUser(int $user_id, int $repository_id) {
+
+        # そのリポジトリにアサインしているすべてのユーザを取得
+        $users = $this->getAssignedUsers($repository_id);
+
+        # 取得したユーザリストの中に、今回追加するユーザIDが有るかを探す
+        foreach ($users as $key => $value) {
+            # すでに、アサインリストにユーザがいたとき
+            if ( (int)$value['user_id'] === (int)$user_id ) {
+                # エラーを返す
+                return false;
+            }
+        }
+
+        # リポジトリの権限を付与するレコードを追加するSQL
+        $sql = 'INSERT into repository_group
+                    (repository_id, user_id)
+                VALUES
+                    (:repository_id, :user_id)
+        ';
+
+        # DBインスタンスの取得
+        $database = $this->_app->getDatabase();
+
+        # SQLの実行
+        $result = $database->getFetch($sql, ['repository_id' => $repository_id, 'user_id' => $user_id]);
+
+        # 結果を返す
+        return $result;
+
+    }
+
+
+
+    /**
      * 指定されたリポジトリIDに参加しているユーザの一覧を配列で返します
      *
      * @author Nな人<nnahito>

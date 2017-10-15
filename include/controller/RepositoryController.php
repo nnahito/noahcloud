@@ -28,6 +28,13 @@ class RepositoryController extends Controller{
      */
     public function run() {
 
+        # POSTアクセスかどうかを調べる
+        if ( $this->isPost()=== true ) {
+            # POSTアクセスなら、POST用のコントローラを実行
+            $this->run_post();
+            exit;
+        }
+
         # リポジトリのIDを取得
         $repository_id = $this->getGet('id');
 
@@ -87,6 +94,9 @@ class RepositoryController extends Controller{
             # リポジトリの設定ページ
             $this->repositorySetting($repository_id);
 
+            # 処理の終了（これ以降の処理に流れないように）
+            exit;
+
         } else if ( $page === 'delete' ) {
 
             # 削除対象のユーザを取得
@@ -102,10 +112,89 @@ class RepositoryController extends Controller{
             # リポジトリのアサインユーザを消す
             $this->deleteUserById($delete_user_id, $repository_id);
 
-        } else {
+            # 処理の終了（これ以降の処理に流れないように）
+            exit;
 
-            # ファイル一覧
-            include_once('../include/view/repositoryView.php');
+        }
+
+
+
+        # ファイル一覧
+        include_once('../include/view/repositoryView.php');
+
+    }
+
+
+
+    /**
+     * POSTアクセスしたときはこちらの処理に移る
+     *
+     * @author Nな人<nnahito>
+     * @return viod
+     */
+    public function run_post() {
+
+        # リポジトリのIDを取得
+        $repository_id = $this->getPost('id');
+
+        # リポジトリIDが設定されていない、または、リポジトリIDが数値でなければエラー
+        if ( empty($repository_id) === true || ctype_digit($repository_id) !== true ) {
+            # 弾く
+            $this->errorMsgs[] = '正常なリポジトリのIDが渡されていません';
+            include_once('../include/view/errorView.php');
+            exit;
+        }
+
+        # セッションを取得するインスタンスを取得
+        $session = $this->app->getSession();
+
+        # ユーザIDを取得
+        $user_id = $session->get('USER_ID');
+
+        # リポジトリを操作するDAOをインスタンス化
+        $repository = new Repository();
+
+        # ユーザの属性を取得するクラスをインスタンス化
+        $user = new User();
+
+        # ユーザにリポジトリの閲覧操作権が有るかを確認
+        $permission = $repository->isAssigned($user_id, $repository_id);
+
+        # ユーザの権限を取得
+        $user_permission = $user->getUserPermission($user_id);
+
+        # リポジトリへのアクセス許可リストにユーザIDがない、かつ、ユーザのパーミッションがマネージャ（1）でなければ
+        if ( $permission !== true && $user_permission !== 1 ) {
+            # 弾く
+            $this->errorMsgs[] = 'この処理へのアクセス権がありません';
+            include_once('../include/view/errorView.php');
+            exit;
+        }
+
+        # 読み込むビューを分けるために、ページモードを取得
+        $post = $this->getPost('page');
+
+        # 取得したページによって、処理をかえる
+        if ( $post === 'add' ) {
+
+            # 追加ユーザのIDを取得
+            $add_user_id = $this->getPost('add_user_id');
+
+            # ユーザIDがなければエラー
+            if ( $add_user_id === '' ) {
+                $this->errorMsgs[] = '追加するユーザIDを指定してください';
+                include_once('../include/view/errorView.php');
+                exit;
+            }
+
+            # データを追加
+            $repository->insertAssignedUser($add_user_id, $repository_id);
+
+            # リポジトリの設定ページ
+            $this->repositorySetting($repository_id);
+
+            # 処理の終了（これ以降の処理に流れないように）
+            exit;
 
         }
 
@@ -137,6 +226,7 @@ class RepositoryController extends Controller{
         # ビューに渡すデータ
         $this->params['assigned_users'] = $assigned_users;
         $this->params['all_users'] = $all_users;
+        $this->params['repository_id'] = $repository_id;
 
         # ビューの読み込み
         include_once('../include/view/repositorySettingView.php');
