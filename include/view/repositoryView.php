@@ -43,7 +43,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>ファイル名</th>
                             <th>アップロード者</th>
                             <th>アップロード日</th>
@@ -57,8 +57,8 @@
                         ?>
                             <tr>
                                 <td><?= $value['file_list_id'] ?></td>
-                                <td><a href="#!" class="btn-flat waves-effect waves-light transparent blue-text text-accent-2"><i class="material-icons center">cloud_download</i></a><?= $value['file_name'] ?></td>
-                                <td><?= $value['upload_person'] ?></td>
+                                <td><a href="#!" class="btn-flat waves-effect waves-light blue-text text-accent-2 blue lighten-5"><i class="material-icons center">cloud_download</i></a><?= $value['file_name'] ?></td>
+                                <td><?= $value['upload_person_name'] ?></td>
                                 <td><?= $value['uploaded_at'] ?></td>
                             </tr>
                         <?php

@@ -33,8 +33,14 @@ class RepositoryController extends Controller{
 
         # リポジトリのIDを取得
         $repository_id = $this->getGet('id');
-        $this->params['repository_id'] = $repository_id;
 
+        # リポジトリIDが設定されていない、または、リポジトリIDが数値でなければエラー
+        if ( empty($repository_id) === true || ctype_digit($repository_id) !== true ) {
+            # 弾く
+            $this->errorMsgs[] = '正常なリポジトリのIDが渡されていません';
+            include_once('../include/view/errorView.php');
+            exit;
+        }
 
         # セッションを取得するインスタンスを取得
         $session = $this->app->getSession();
@@ -42,7 +48,10 @@ class RepositoryController extends Controller{
         # ユーザIDを取得
         $user_id = $session->get('USER_ID');
 
+        # リポジトリを操作するDAOをインスタンス化
         $repository = new Repository();
+
+        # ユーザにリポジトリの閲覧操作権が有るかを確認
         $permission = $repository->isAssigned($user_id, $repository_id);
 
         # リポジトリへのアクセス許可リストに、ユーザIDがなければ
@@ -53,23 +62,14 @@ class RepositoryController extends Controller{
             exit;
         }
 
-        # データベースからデータを取得
-        $db = $this->app->getDatabase();
 
-        # リポジトリのファイル一覧を取得
-        $sql = '
-        SELECT
-            file_list_id, repository_id, file_name, upload_person, uploaded_at
-        FROM
-            file_list
-        WHERE
-            repository_id = :id
-        ';
-        $this->params['file_list'] = $db->getFetchAll($sql, ['id' => $repository_id]);
+        # ビューに渡すデータ群
+        $this->params['repository_id'] = $repository_id;                                            # リポジトリのID
+        $this->params['file_list'] = $repository->getFileList($repository_id);                      # ファイルリストのデータ
 
         # ビューを読み込み
         include_once('../include/view/repositoryView.php');
 
     }
-    
+
 }
