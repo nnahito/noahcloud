@@ -17,11 +17,8 @@ Class DownloadController extends Controller{
         # Applicationインスタンスを生成
         $this->app = new Application();
 
-        # ログインをチェックするクラスをインスタンス化
-        $login = new LoginBissiness();
-
         # もしログインしていなければ
-        if ( $login->isLogin() === false ) {
+        if ( $this->authCheck() === false ) {
             # ログインページへ飛ばす
             header('Location: ./login.php');
             exit;

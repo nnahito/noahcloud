@@ -10,11 +10,8 @@ class IndexController extends Controller{
         # Applicationインスタンスを生成
         $this->app = new Application();
 
-        # ログインをチェックする
-        $login = new LoginBissiness();
-
         # もしログインしていなければ
-        if ( $login->isLogin() === false ) {
+        if ( $this->authCheck() === false ) {
             # ログインページへ飛ばす
             header('Location: ./login.php');
             exit;
