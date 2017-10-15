@@ -12,11 +12,8 @@ class RepositoryController extends Controller{
         # Applicationインスタンスを生成
         $this->app = new Application();
 
-        # ログインをチェックする
-        $login = new LoginBissiness();
-
         # もしログインしていなければ
-        if ( $login->isLogin() === false ) {
+        if ( $this->authCheck() === false ) {
             # ログインページへ飛ばす
             header('Location: ./login.php');
             exit;
@@ -68,14 +65,110 @@ class RepositoryController extends Controller{
             exit;
         }
 
-
         # ビューに渡すデータ群
         $this->params['repository_id'] = $repository_id;                                            # リポジトリのID
         $this->params['file_list'] = $repository->getFileList($repository_id);                      # ファイルリストのデータ
-        $this->params['user_id'] = $user_id;                                                        # ゆーざID 
+        $this->params['user_id'] = $user_id;                                                        # ユーザID
 
-        # ビューを読み込み
-        include_once('../include/view/repositoryView.php');
+        # 読み込むビューを分けるために、ページモードを取得
+        $page = $this->getGet('page');
+
+        # 取得したページによって、処理をかえる
+        if ( $page === 'setting' ) {
+
+            # 管理者(1)か、マネージャー(2)でないと管理ページへ行けないのでその確認
+            if ( $user_permission !== 1 && $user_permission !== 2 ) {
+                # 権限が足りないのでエラー
+                $this->errorMsgs[] = 'アナタの権限ではこのページを表示することはできません';
+                include_once('../include/view/errorView.php');
+                exit;
+            }
+
+            # リポジトリの設定ページ
+            $this->repositorySetting($repository_id);
+
+        } else if ( $page === 'delete' ) {
+
+            # 削除対象のユーザを取得
+            $delete_user_id = $this->getGet('delete_user_id');
+
+            # 削除対象ユーザがなければエラー
+            if ( $delete_user_id === '' ) {
+                $this->errorMsgs[] = '削除するユーザIDを指定してください';
+                include_once('../include/view/errorView.php');
+                exit;
+            }
+
+            # リポジトリのアサインユーザを消す
+            $this->deleteUserById($delete_user_id, $repository_id);
+
+        } else {
+
+            # ファイル一覧
+            include_once('../include/view/repositoryView.php');
+
+        }
+
+    }
+
+
+
+    /**
+     * リポジトリの設定ページを表示させる
+     *
+     * @author Nな人<nnahito>
+     * @param  int    $repository_id    リポジトリのID（バリデーションチェック後のものを渡す）
+     * @return void
+     */
+    private function repositorySetting(int $repository_id) {
+
+        # リポジトリを操作するDAOをインスタンス化
+        $repository = new Repository();
+
+        # アサインされているユーザ一覧を取得
+        $assigned_users = $repository->getAssignedUsers($repository_id);
+
+        # ユーザ情報を扱うDAOをインスタンス化
+        $user = new User();
+
+        # すべてのユーザを取得
+        $all_users = $user->getUsersList();
+
+        # ビューに渡すデータ
+        $this->params['assigned_users'] = $assigned_users;
+        $this->params['all_users'] = $all_users;
+
+        # ビューの読み込み
+        include_once('../include/view/repositorySettingView.php');
+
+    }
+
+
+
+    private function deleteUserById(int $user_id, int $repository_id) {
+
+        # ユーザの属性を取得するクラスをインスタンス化
+        $user = new User();
+
+        # ユーザの権限を取得
+        $user_permission = $user->getUserPermission($user_id);
+
+        # 管理者(1)か、マネージャー(2)でないと削除ができないので、その確認
+        if ( $user_permission !== 1 && $user_permission !== 2 ) {
+            # 権限が足りないのでエラー
+            $this->errorMsgs[] = 'アナタの権限では削除を行うことができません';
+            include_once('../include/view/errorView.php');
+            exit;
+        }
+
+        # リポジトリを操作するDAOをインスタンス化
+        $repository = new Repository();
+
+        # ユーザIDを指定リポジトリから削除する
+        $result = $repository->deleteUser($user_id, $repository_id);
+
+        # 設定ページへ戻す
+        $this->repositorySetting($repository_id);
 
     }
 
