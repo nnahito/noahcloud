@@ -8,7 +8,7 @@ $loader = new ClassLoader();
 # 各ディレクトリをロードする
 $loader->registerDir('../include/model/core');
 $loader->registerDir('../include/model/DB');
-$loader->registerDir('../include/model/Bissiness');
+$loader->registerDir('../include/model/Business');
 $loader->registerDir('../include/model');
 $loader->registerDir('../include/controller');
 

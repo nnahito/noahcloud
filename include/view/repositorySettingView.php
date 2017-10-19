@@ -47,7 +47,7 @@
                         }
                         ?>
                     </select>
-                    <label>Materialize Select</label>
+                    <label>Select User</label>
 
                     <div class="right-align">
                         <button type="submit" class="btn waves-effect waves-light">ユーザの追加</button>
