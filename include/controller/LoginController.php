@@ -35,7 +35,6 @@ Class LoginController extends Controller
         # Viewの表示
         include_once('../include/view/loginView.php');
 
-
     }
 
 

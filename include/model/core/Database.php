@@ -43,7 +43,16 @@ class Database{
     }
 
 
-    /* executeするメソッド */
+    /**
+     * SQL文を実行します。
+     * 実行結果はprepareステートメントで返ります
+     *
+     * @method execute
+     * @author Nな人<nnahito>
+     * @param  string  $sql         SQL文を指定
+     * @param  array   $data        SQL文のプレースホルダーに当てはめるデータを配列で指定
+     * @return pdo                  実行結果のプリペアステートメントが返る
+     */
     public function execute($sql, $data=array()){
         $stmt = $this->pdo->prepare($sql);
 

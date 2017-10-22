@@ -60,6 +60,9 @@ Class LoginBissiness
         # セッションそのものをすべて削除する
         $session->clear();
 
+        # セッションからUSERIDを削除
+        $session->remove('USER_ID');
+
         # ページ強制切り替え（あえての一度indexに飛ばす）
         header('Location: ./');
     }

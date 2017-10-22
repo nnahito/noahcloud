@@ -93,9 +93,53 @@ Class User extends Database
 
 
     /**
+     * ユーザの情報をユーザIDをキーに検索し、結果を連想配列で返します。
+     * 結果がなければfalseが返ります。
+     *
+     * @method getUserInfoById
+     * @author Nな人<nnahito>
+     * @param  int             $user_id     ユーザIDを指定。ここのユーザIDはDBのユニークな値（user_id）のことを指す。
+     * @return array|bool                   結果があればDBの検索結果が連想配列で、結果がなければfalseが返る。
+     */
+    public function getUserInfoById(int $user_id) {
+
+        # DBからユーザ情報を取得するSQL
+        $sql = 'SELECT
+                    user_id
+                    , user_name
+                    , email
+                    , password
+                    , permission
+                FROM
+                    user
+                WHERE
+                    user_id = :user_id
+        ';
+
+        # プレースホルダーに入れる値
+        $data = ['user_id' => $user_id];
+
+        # ユーザ情報を取得
+        $user_info = $this->_dao->getFetch($sql, $data);
+
+        # データがなければ
+        if ( count($user_info) === 1 ) {
+            # falseを返す
+            return (bool)false;
+        }
+
+        # 結果を配列で返す
+        return (array)$user_info;
+
+    }
+
+
+
+    /**
      * ユーザの権限をDBから取得して返す
+     *
      * @param  int    $user_id  ユーザIDを指定
-     * @return int
+     * @return int    値が取得できれば権限をintで、取得に失敗した場合は0が返る
      */
     public function getUserPermission(int $user_id) {
 
@@ -124,6 +168,37 @@ Class User extends Database
 
         # データが存在していれば、int型でパーミッションを返す
         return (int)$permission['permission'];
+    }
+
+
+
+    /**
+     * ユーザの情報を更新します
+     *
+     * @method updateUserData
+     * @author Nな人<nnahito>
+     * @param  int            $user_id      ユーザIDを指定
+     * @param  array          $data         更新するユーザ
+     * @return pdo                          PDOのステートメントを返す
+     */
+    public function updateUserData(int $user_id, array $data) {
+
+        # ユーザIDを元に、データを更新するSQL
+        $sql = 'UPDATE user
+                SET
+                    user_name = :user_name
+                    , email = :email
+                    , password = :password
+                WHERE
+                    user_id = :user_id
+        ';
+
+        # SQLを実行
+        $statement = $this->_dao->execute($sql, $data);
+
+        # ステートメントを返す
+        return $statement;
+
     }
 
 }
