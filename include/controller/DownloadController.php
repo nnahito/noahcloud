@@ -59,7 +59,7 @@ Class DownloadController extends Controller{
         if ( empty($repository_id) === true || ctype_digit($repository_id) !== true ) {
             # 弾く
             $this->errorMsgs[] = '正常なリポジトリのIDが渡されていません';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 
@@ -67,7 +67,7 @@ Class DownloadController extends Controller{
         if ( $repository->isAssigned($user_id, $repository_id) !== true && $user->getUserPermission($user_id) !== 1 ) {
             # アクセス権がなければエラー
             $this->errorMsgs[] = 'アクセス権がありません';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 
@@ -78,7 +78,7 @@ Class DownloadController extends Controller{
         if ( $file_id === '' ) {
             # エラーページを表示
             $this->errorMsgs[] = 'ファイルIDが指定されていません';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 
@@ -89,7 +89,7 @@ Class DownloadController extends Controller{
         if ( $file_name === false ) {
             # エラーページを表示
             $this->errorMsgs[] = 'ファイルIDが存在していません。削除された可能性があります';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 

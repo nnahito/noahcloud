@@ -13,7 +13,7 @@ class Database{
 
         # データベースに接続
         try{
-            $this->pdo = new PDO('sqlite:../database/noahcloud_db.sqlite', '', '');
+            $this->pdo = new PDO('sqlite:'. INCLUDE_PATH .'/database/noahcloud_db.sqlite', '', '');
 
             # 例外を投げる
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

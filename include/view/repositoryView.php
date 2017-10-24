@@ -6,14 +6,14 @@
     <meta charset="utf-8">
 
     <!-- CSSとJSを読み込む -->
-    <?php include_once('../include/view/template/include.php'); ?>
+    <?php include_once(INCLUDE_PATH . '/include/view/template/include.php'); ?>
 
 </head>
 
 <body>
 
     <!-- ヘッダー -->
-    <?php include_once('../include/view/template/header.php'); ?>
+    <?php include_once(INCLUDE_PATH . '/include/view/template/header.php'); ?>
 
 
 
@@ -21,7 +21,7 @@
         <!-- ここにリポジトリの設定一覧が表示される -->
         <div class="col s3" style="height: 100%">
             <ul>
-                
+
                 <li style="padding: 5px 0px;">
                     <a href="./repository.php?id=<?= $this->params['repository_id'] ?>&page=setting" class="z-depth-0 btn waves-effect waves-light center-align grey darken-3 modal-trigger" style="width: 100%;">リポジトリ設定</a>
                 </li>

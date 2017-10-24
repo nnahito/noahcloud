@@ -12,3 +12,7 @@
         </ul>
     </div>
 </nav>
+
+<script>
+    $(".button-collapse").sideNav();
+</script>

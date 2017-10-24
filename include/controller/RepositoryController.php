@@ -42,7 +42,7 @@ class RepositoryController extends Controller{
         if ( empty($repository_id) === true || ctype_digit($repository_id) !== true ) {
             # 弾く
             $this->errorMsgs[] = '正常なリポジトリのIDが渡されていません';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 
@@ -68,7 +68,7 @@ class RepositoryController extends Controller{
         if ( $permission !== true && $user_permission !== 1 ) {
             # 弾く
             $this->errorMsgs[] = 'このリポジトリへのアクセス権がありません';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 
@@ -87,7 +87,7 @@ class RepositoryController extends Controller{
             if ( $user_permission !== 1 && $user_permission !== 2 ) {
                 # 権限が足りないのでエラー
                 $this->errorMsgs[] = 'アナタの権限ではこのページを表示することはできません';
-                include_once('../include/view/errorView.php');
+                include_once(INCLUDE_PATH . '/include/view/errorView.php');
                 exit;
             }
 
@@ -105,7 +105,7 @@ class RepositoryController extends Controller{
             # 削除対象ユーザがなければエラー
             if ( $delete_user_id === '' ) {
                 $this->errorMsgs[] = '削除するユーザIDを指定してください';
-                include_once('../include/view/errorView.php');
+                include_once(INCLUDE_PATH . '/include/view/errorView.php');
                 exit;
             }
 
@@ -120,7 +120,7 @@ class RepositoryController extends Controller{
 
 
         # ファイル一覧
-        include_once('../include/view/repositoryView.php');
+        include_once(INCLUDE_PATH . '/include/view/repositoryView.php');
 
     }
 
@@ -141,7 +141,7 @@ class RepositoryController extends Controller{
         if ( empty($repository_id) === true || ctype_digit($repository_id) !== true ) {
             # 弾く
             $this->errorMsgs[] = '正常なリポジトリのIDが渡されていません';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 
@@ -167,7 +167,7 @@ class RepositoryController extends Controller{
         if ( $permission !== true && $user_permission !== 1 ) {
             # 弾く
             $this->errorMsgs[] = 'この処理へのアクセス権がありません';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 
@@ -183,7 +183,7 @@ class RepositoryController extends Controller{
             # ユーザIDがなければエラー
             if ( $add_user_id === '' ) {
                 $this->errorMsgs[] = '追加するユーザIDを指定してください';
-                include_once('../include/view/errorView.php');
+                include_once(INCLUDE_PATH . '/include/view/errorView.php');
                 exit;
             }
 
@@ -229,7 +229,7 @@ class RepositoryController extends Controller{
         $this->params['repository_id'] = $repository_id;
 
         # ビューの読み込み
-        include_once('../include/view/repositorySettingView.php');
+        include_once(INCLUDE_PATH . '/include/view/repositorySettingView.php');
 
     }
 
@@ -247,7 +247,7 @@ class RepositoryController extends Controller{
         if ( $user_permission !== 1 && $user_permission !== 2 ) {
             # 権限が足りないのでエラー
             $this->errorMsgs[] = 'アナタの権限では削除を行うことができません';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 

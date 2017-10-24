@@ -6,14 +6,14 @@
     <meta charset="utf-8">
 
     <!-- CSSとJSを読み込む -->
-    <?php include_once('../include/view/template/include.php'); ?>
+    <?php include_once(INCLUDE_PATH . '/include/view/template/include.php'); ?>
 
 </head>
 
 <body>
 
     <!-- ヘッダー -->
-    <?php include_once('../include/view/template/header.php'); ?>
+    <?php include_once(INCLUDE_PATH . '/include/view/template/header.php'); ?>
 
 
 

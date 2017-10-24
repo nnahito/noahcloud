@@ -109,7 +109,7 @@ class AdminController extends Controller
         if ( empty($this->params['permission']) === 0 ){
             # エラーページへ飛ばす
             $this->errorMsgs[] = '権限の取得に失敗しました。';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 
@@ -117,7 +117,7 @@ class AdminController extends Controller
         $this->params['user_info'] = $userDao->getUserInfoById($this->_user_id);
 
         # ビューへ
-        include_once('../include/view/admin/indexView.php');
+        include_once(INCLUDE_PATH . '/include/view/admin/indexView.php');
 
     }
 
@@ -142,7 +142,7 @@ class AdminController extends Controller
         if ( empty($this->params['permission']) === 0 ){
             # エラーページへ飛ばす
             $this->errorMsgs[] = '権限の取得に失敗しました。';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 
@@ -153,7 +153,7 @@ class AdminController extends Controller
         if ( (int)$form_user_id !== (int)$this->_user_id ) {
             # もし、値が違うならエラー
             $this->errorMsgs[] = 'ユーザ情報に致命的な差異があります';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 
@@ -205,7 +205,7 @@ class AdminController extends Controller
         if ( $this->params['permission'] !== 1 ) {
             # 権限不足でエラー
             $this->errorMsgs[] = 'このページにアクセするには権限が足りません';
-            include_once('../include/view/errorView.php');
+            include_once(INCLUDE_PATH . '/include/view/errorView.php');
             exit;
         }
 
